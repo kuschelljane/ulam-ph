@@ -81,6 +81,10 @@
   function goToPage(page:number) :void {
     if (page >= 1 && page <= totalPages.value) {
       currentPage.value = page;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -125,7 +129,7 @@
 
         <div class="bottom-section">
           <div class="footer-div">
-            <a :href="item.url" target="_blank" class="text">View full recipe > </a>
+            <a :href="item.url" target="_blank" class="text">View Panlasang Pinoy's full recipe > </a>
           </div>
           <div class="tags-div">
             <Tags :tags="item.tags" />
@@ -166,11 +170,13 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
+    font-size: 14px;
   }
   .container {
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: 10px;
+    background-color: white;
     color: black;
     border: 2px solid #F5F5F5;
     padding: 5%;
@@ -258,6 +264,12 @@
   }
 
   @media (max-width: 768px) {
+    .main-card {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
     .main-card {
       grid-template-columns: 1fr;
     }

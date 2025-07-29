@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted, defineEmits, defineProps } from 'vue';
+  import { ref, computed, watch, nextTick, onMounted, defineEmits, defineProps } from 'vue';
   import SearchIcon from './icons/SearchIcon.vue';
+import type { ComponentPublicInstance } from 'vue';
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,6 +13,9 @@
 
   const searchTerm = ref ('');
   const ingredients = ref <Ingredient[]>([]);
+  const focusedIndex = ref(-1);
+  const focusedItem = ref<HTMLElement | null>(null);
+
   const props = defineProps<{
     selectedIngredients: Ingredient[]
   }>();
@@ -56,24 +60,61 @@
     emits('removeIngredient', ingredient);
   };
 
+  function moveDown() {
+    if (!filteredIngredients.value.length) return;
+    focusedIndex.value = (focusedIndex.value + 1 ) % filteredIngredients.value.length;
+  }
+
+  function moveUp() {
+    if (!filteredIngredients.value.length) return;
+    focusedIndex.value = (focusedIndex.value - 1 + filteredIngredients.value.length ) % filteredIngredients.value.length;
+  }
+
+  function selectItem() {
+    if (focusedIndex.value < 0 || focusedIndex.value >= filteredIngredients.value.length) return;
+    addIngredient(filteredIngredients.value[focusedIndex.value])
+    focusedIndex.value = -1;
+  }
+
+  function setFocusedItem(el: Element | ComponentPublicInstance | null, index: number) {
+  if (el instanceof HTMLElement && index === focusedIndex.value) {
+    focusedItem.value = el;
+  }
+}
+
+watch(focusedIndex, () => {
+  nextTick(() => {
+    if (focusedItem.value) {
+      focusedItem.value.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+});
+
+  watch(searchTerm, () => {
+    focusedIndex.value = -1;
+  })
+
 </script>
 
 <template>
   <div class="search-div">
-    <div class="input-wrapper">
+    <div class="input-wrapper" @keydown.down.prevent="moveDown" @keydown.up.prevent="moveUp" @keydown.enter.prevent="selectItem">
       <input
         v-model="searchTerm"
         type="text"
         placeholder="Type an ingredient"
         class="search-text"
         :class="{ 'rounded-bottom': filteredIngredients.length }"
-      >
+      />
       <SearchIcon class="search-icon" />
       <ul v-if="filteredIngredients.length && searchTerm">
         <li
-          v-for="ingredient in filteredIngredients"
+          v-for="(ingredient, index) in filteredIngredients"
           :key="ingredient.id"
           @click="addIngredient(ingredient)"
+          :class="{ focused: index === focusedIndex }"
+          @mousedown.prevent="addIngredient(ingredient)"
+          :ref="el => setFocusedItem(el, index)"
         >
           {{ ingredient.english_name }} <span class="tagalog-name">({{ ingredient.tagalog_name }})</span>
         </li>
@@ -111,6 +152,7 @@
     border-radius: 8px;
     border-color: black;
     border-width: 1px;
+    font-size: 14px;
   }
   .search-text.rounded-bottom {
     border-radius: 8px 8px 0 0;
@@ -130,6 +172,7 @@
     grid-template-columns: repeat(5, 1fr);
     row-gap: 10px;
     column-gap: 15px;
+    font-size: 14px;
   }
   .selected-ingredient {
     background-color: rgba(231, 111, 81, 0.8);
@@ -168,15 +211,21 @@
     cursor: pointer;
     padding: 2px;
   }
-  li:hover  {
+  li:hover {
     background-color: rgba(231, 111, 81, 0.8);
     color: white;
     border-radius: 2px;
+  }
+  .focused {
+    background-color: #f0f0f0;
   }
 
   @media (max-width: 768px) {
     .selected-div {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .search-text {
+      font-size: 16px;
     }
   }
 

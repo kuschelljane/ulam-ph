@@ -24,6 +24,7 @@
     grid-template-columns: 70px 70px 70px;
     gap: 5px;
     color: white;
+    font-size: 12px;
   }
   .savory, .quick, .healthy {
     border-radius: 20px;

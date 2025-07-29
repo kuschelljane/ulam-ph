@@ -94,6 +94,7 @@
     animation-delay: 0.4s;
   }
   .choice {
+    font-size: 13px;
     padding: 5px;
     margin-top: 5px;
     width: 100%;
@@ -101,6 +102,7 @@
     border: 1px solid rgba(231, 111, 81, 0.8);
     border-radius: 5px;
     cursor: pointer;
+    color: black;
   }
   .regenerate-div {
     display: flex;
@@ -122,6 +124,7 @@
     border: none;
     cursor: pointer;
     gap: 5px;
+    color: black;
   }
   .small-choice:hover {
     border-bottom: 1px solid #E76F51;

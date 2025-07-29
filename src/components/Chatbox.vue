@@ -59,9 +59,9 @@ function replaceTypingWithMessage(message: ChatMessage) {
 }
 
 function formatMeal(meal: Meal): string {
-  return `Eto na ang random ulam mo today: ${meal.name}! 😋.
+  return `Eto na ang random ulam mo today: ${meal.name}! 😋
       Mga sangkap: ${meal.ingredients.join(', ')}.
-      Kung gusto mo ng dagdag na info, check mo ito: ${meal.url} `
+      Kung gusto mo ng dagdag na kaalaman, tingnan mo ito: ${meal.url} `
 }
 
 function formatMealList(meals: Meal[]): string {
@@ -195,7 +195,7 @@ const handleWeatherClick = async () => {
 
   chatMessages.value.push({
     type: 'user',
-    content: "Ma, anong ulam ang swak sa panahon ngayon?",
+    content: "Ma, anong ulam ang pang-panahon?",
   })
 
   chatMessages.value.push({
@@ -288,7 +288,7 @@ const regenerateResponse = async (index: number) => {
               :button-messages="[
                 'Ma, random ulam reveal, go!',
                 'Anong masarap kainin buong linggo, Ma?',
-                'Ma, anong ulam ang swak sa panahon ngayon?',
+                'Ma, anong ulam ang pang-panahon?',
               ]"
               @button-clicked="handleButtonClick"
               @regenerate-clicked="() => regenerateResponse(index)"
@@ -307,6 +307,7 @@ const regenerateResponse = async (index: number) => {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  font-size: 13px;
 }
 .icon-div {
   display: flex;
@@ -315,25 +316,25 @@ const regenerateResponse = async (index: number) => {
   color: white;
   background-color: #e76f51;
   border-radius: 100%;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   z-index: 100;
   cursor: pointer;
 }
 .chat-icon {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 }
 .chat-window {
   position: fixed;
-  bottom: 70px;
-  right: 0;
-  width: 400px;
+  bottom: 80px;
+  right: 10px;
+  width: 350px;
   height: 500px;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   padding: 1rem;
   display: flex;
   flex-direction: column;
