@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { defineEmits } from 'vue';
-  import RobotIcon from '../icons/RobotIcon.vue';
   import ArrowPathIcon from '../icons/ArrowPathIcon.vue';
 
   const props = defineProps<{
