@@ -4,6 +4,8 @@ import { ref, watch, nextTick } from 'vue'
 import BotChat from './Chat/BotChat.vue'
 import UserChat from './Chat/UserChat.vue'
 
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
 interface Meal {
   id: number
   name: string
@@ -94,7 +96,7 @@ const handleButtonClick = (index: number) => {
 }
 
 const fetchTodaysPick = async (): Promise<Meal> => {
-  const response = await fetch('/api/menu/recommendation')
+  const response = await fetch(`${apiUrl}/menu/recommendation`)
   if (!response.ok) {
     throw new Error('failed to fetch menus')
   }
@@ -102,7 +104,7 @@ const fetchTodaysPick = async (): Promise<Meal> => {
 }
 
 const fetchWeeklyPlan = async (): Promise<Meal[]> => {
-  const response = await fetch('/api/menu/weekly')
+  const response = await fetch(`${apiUrl}/menu/weekly`)
   if (!response.ok) {
     throw new Error('failed to fetch menus')
   }
@@ -115,7 +117,7 @@ type weatherMealResponse = {
 }
 
 const fetchWeatherMeals = async (): Promise<weatherMealResponse> => {
-  const response = await fetch('/api/menu/weather')
+  const response = await fetch(`${apiUrl}/menu/weather`)
   if (!response.ok) {
     throw new Error('failed to fetch menus')
   }

@@ -5,6 +5,8 @@
   import ArrowLeftIcon from './icons/ArrowLeftIcon.vue';
   import ArrowRightIcon from './icons/ArrowRightIcon.vue';
 
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
 
   interface Ingredient {
     id: number,
@@ -28,7 +30,7 @@
 
   async function fetchMenus () {
     try {
-      const response = await fetch ('/api/menus');
+      const response = await fetch (`${apiUrl}/menus`);
 
       if (!response.ok) {
         throw new Error ('failed to fetch menus');

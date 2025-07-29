@@ -2,6 +2,8 @@
   import { ref, computed, onMounted, defineEmits, defineProps } from 'vue';
   import SearchIcon from './icons/SearchIcon.vue';
 
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
   interface Ingredient {
     id: number,
     english_name: string,
@@ -17,7 +19,7 @@
 
   async function fetchIngredients () {
     try {
-      const response = await fetch ('/api/ingredients');
+      const response = await fetch (`${apiUrl}/ingredients`);
 
       if (!response.ok) {
         throw new Error ('failed to fetch ingredients');
